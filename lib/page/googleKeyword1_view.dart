@@ -25,7 +25,7 @@ class _GoogleKeyword1State extends State<GoogleKeyword1> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: WebViewWidget(controller: _controller),
+        child: SizedBox(child: WebViewWidget(controller: _controller)),
       ),
     );
   }

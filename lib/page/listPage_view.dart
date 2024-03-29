@@ -34,6 +34,7 @@ class _ListPageState extends State<ListPage> {
     double width = size.width;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
@@ -43,14 +44,21 @@ class _ListPageState extends State<ListPage> {
               child: h1Text("구글의 목표는 전 세계의 정보를 체계화하여 모두가 편리 하게 이용 할 수 있도록 하는 것입니다.", Colors.black),
             ),
             Wrap(alignment: WrapAlignment.center, spacing: 7, runSpacing: 10, children: [
-              googleKeyword("2023년 올해의 검색어", context, "/googleKeyword1"),
-              googleKeyword("구글 스토리", context, "/googleKeyword1"),
-              googleKeyword("google for Korea", context, "/googleKeyword1"),
-              googleKeyword("구글 검색 25주년", context, "/googleKeyword1"),
-              googleKeyword("구글의 약속", context, "/googleKeyword1"),
+              googleKeyword("2023년 올해의 검색어", context, Colors.blue, "/googleKeyword1"),
+              googleKeyword("구글 스토리", context, Colors.red, "/googleKeyword1"),
+              googleKeyword("google for Korea", context, Colors.yellow.shade600, "/googleKeyword1"),
+              googleKeyword("구글 검색 25주년", context, Colors.blue, "/googleKeyword1"),
+              googleKeyword("구글의 약속", context, Colors.green, "/googleKeyword1"),
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.more_horiz,
+                    color: Colors.red,
+                    size: 26,
+                  )),
             ]),
             SizedBox(
-              height: 250,
+              height: 260,
               width: 500,
               child: Stack(children: [
                 googleItemIcon("1", height * 0.16, width * 0.0),
@@ -137,6 +145,30 @@ class _ListPageState extends State<ListPage> {
               ),
             ),
             Text("방명록"),
+            Container(
+              padding: EdgeInsets.all(20),
+              height: 200,
+              width: width,
+              color: Colors.amber,
+              child: Container(
+                color: Colors.red,
+                width: double.infinity,
+                height: double.infinity,
+                child: DataTable(
+                  columns: [
+                    DataColumn(label: Text("순번")),
+                    DataColumn(label: Text("순번")),
+                  ],
+                  rows: [
+                    DataRow(cells: [
+                      DataCell(Text("1")),
+                      DataCell(Text("1")),
+                    ]),
+                    DataRow(cells: [DataCell(Text("1")), DataCell(Text("1"))])
+                  ],
+                ),
+              ),
+            ),
             Text("도움받기"), //고객센터
             InkWell(
               onTap: () {
@@ -168,14 +200,24 @@ Widget googleItemIcon(String itemNumber, double top, double left) {
   );
 }
 
-Widget googleKeyword(String str, BuildContext context, String router) {
+Widget googleKeyword(String str, BuildContext context, Color color, String router) {
   return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+      side: BorderSide(
+        color: color,
+        width: 3,
+      ),
+      shadowColor: color,
+    ),
+    onHover: (value) => print('ssss'),
     onPressed: () {
       context.go(router);
     },
     child: Text(
       str,
-      style: const TextStyle(fontSize: 10),
+      style: const TextStyle(fontSize: 10, color: Colors.black),
     ),
   );
 }
@@ -194,5 +236,17 @@ Widget h1Text(String str, Color color) {
         textAlign: TextAlign.center,
       ),
     ),
+  );
+}
+
+//firebase에서
+//순번,이름,내용,등록일 (삭제유무)가져오기
+Widget guestBook() {
+  return Row(
+    children: [
+      Text(
+        (""),
+      )
+    ],
   );
 }
