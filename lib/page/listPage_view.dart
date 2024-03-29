@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -112,10 +113,14 @@ class _ListPageState extends State<ListPage> {
                       height: 40,
                       child: TextFormField(
                         textAlign: TextAlign.center,
+                        textAlignVertical: TextAlignVertical.center,
                         decoration: const InputDecoration(
+                          // floatingLabelAlignment: FloatingLabelAlignment.center,
                           hintText: "서비스명",
                           fillColor: Colors.white,
+                          hintStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 13),
                           filled: true,
+                          contentPadding: EdgeInsets.all(0), //가운데정렬
                           enabledBorder: OutlineInputBorder(
                             //borderRadius: BorderRadius.all(Radius.circular(20)),
                             borderSide: BorderSide(color: Colors.white),
@@ -144,7 +149,7 @@ class _ListPageState extends State<ListPage> {
                 child: h1Text("Google의 기술을 통해 더 많은 사람들이 혜택을 얻을 수 있도록 돕습니다.", Colors.black),
               ),
             ),
-            Text("방명록"),
+            h1Text("방명록", Colors.black),
             Container(
               padding: EdgeInsets.all(20),
               height: 200,
@@ -164,7 +169,10 @@ class _ListPageState extends State<ListPage> {
                       DataCell(Text("1")),
                       DataCell(Text("1")),
                     ]),
-                    DataRow(cells: [DataCell(Text("1")), DataCell(Text("1"))])
+                    DataRow(cells: [
+                      DataCell(Text("1")),
+                      DataCell(Text("1")),
+                    ])
                   ],
                 ),
               ),
