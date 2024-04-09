@@ -13,10 +13,27 @@ class _FirebaseConnectionState extends State<FirebaseConnection> {
   Widget build(BuildContext context) {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
     //자동생성
-    _firestore.collection("collectionId").add({});
+    _firestore.collection("guestBook").doc().set({
+      "content": "ㅇ아아",
+      "created_at": DateTime, //DATE FORMAT
+      "name": "ㅈㅈ",
+      "no": "2",
+      "password": "1234",
+      "updated_at": DateTime,
+    });
 
     //수동생성
-    _firestore.collection("collectionId").doc("documentId").set({});
+    //_firestore.collection("collectionId").doc("documentId").set({});
+
     return const Placeholder();
   }
 }
+
+// FirebaseFirestore _firestore = FirebaseFirestore.instance;
+// await _firestore.collection("cars").doc().set(
+//                 {
+//                   "brand": "Genesis",
+//                   "name": "G80",
+//                   "price": 7000,
+//                 },
+//               );

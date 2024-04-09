@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -118,7 +118,7 @@ class _ListPageState extends State<ListPage> {
                           // floatingLabelAlignment: FloatingLabelAlignment.center,
                           hintText: "서비스명",
                           fillColor: Colors.white,
-                          hintStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 13),
+                          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13),
                           filled: true,
                           contentPadding: EdgeInsets.all(0), //가운데정렬
                           enabledBorder: OutlineInputBorder(
@@ -151,31 +151,15 @@ class _ListPageState extends State<ListPage> {
             ),
             h1Text("방명록", Colors.black),
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               height: 200,
               width: width,
               color: Colors.amber,
-              child: Container(
-                color: Colors.red,
-                width: double.infinity,
-                height: double.infinity,
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text("순번")),
-                    DataColumn(label: Text("순번")),
-                  ],
-                  rows: [
-                    DataRow(cells: [
-                      DataCell(Text("1")),
-                      DataCell(Text("1")),
-                    ]),
-                    DataRow(cells: [
-                      DataCell(Text("1")),
-                      DataCell(Text("1")),
-                    ])
-                  ],
-                ),
-              ),
+              child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    return guestBook();
+                  }),
             ),
             Text("도움받기"), //고객센터
             InkWell(
@@ -248,13 +232,14 @@ Widget h1Text(String str, Color color) {
 }
 
 //firebase에서
-//순번,이름,내용,등록일 (삭제유무)가져오기
+//순번,이름,내용,등록일 가져오기
 Widget guestBook() {
   return Row(
     children: [
-      Text(
-        (""),
-      )
+      Text("1"),
+      Text("24.4.1"),
+      Text("장인영"),
+      Text("내용"),
     ],
   );
 }

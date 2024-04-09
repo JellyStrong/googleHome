@@ -49,6 +49,12 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        /* 24.4.9 
+        no: ERROR_1
+        before : null
+        after : 아래 추가
+        */
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -64,4 +70,12 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+     /* 24.4.9 
+    no: ERROR_1
+    before : null
+    after: 아래 두줄 추가
+    */
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+}
