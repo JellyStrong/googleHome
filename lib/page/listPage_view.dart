@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/common/myWidget.dart';
+import 'package:googlehomepage/controller/firebaseConnection.dart';
+import 'package:googlehomepage/model/data.dart';
 import 'package:googlehomepage/page/googleKeyword1_view.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:googlehomepage/page/guestBook_view.dart';
+import 'package:provider/provider.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
 class ListPage extends StatefulWidget {
@@ -33,6 +37,10 @@ class _ListPageState extends State<ListPage> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
+    final _formKey = GlobalKey<FormState>();
+    String guestName = "";
+    String guestPassword = "";
+    String guestContent = "";
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -161,12 +169,45 @@ class _ListPageState extends State<ListPage> {
                     return guestBook();
                   }),
             ),
-            Text("도움받기"), //고객센터
             InkWell(
               onTap: () {
-                context.go("/Info");
+                //provider로 상태관리
+                context.read<Data>().showGuestFormFC();
+                //write
               },
-              child: Text("개발정보"),
+              child: const Text("글작성 하기"),
+            ),
+            Consumer<Data>(builder: (context, provider, child) {
+              return Visibility(
+                  visible: provider.showGuestForm,
+                  child: Form(
+                      //  key: _formKey,
+                      child: TextFormField(
+                    key: ValueKey(1),
+                    onSaved: (newValue) {
+                      guestName = newValue!;
+                      print(guestName);
+                    },
+                  )));
+            }),
+            const SizedBox(
+              height: 100,
+            ),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    context.go("/help");
+                  },
+                  child: const Text("도움받기"),
+                ), //고객센터
+                InkWell(
+                  onTap: () {
+                    context.go("/Info");
+                  },
+                  child: Text("개발정보"),
+                ),
+              ],
             ),
           ]),
         ),
@@ -233,6 +274,9 @@ Widget h1Text(String str, Color color) {
 
 //firebase에서
 //순번,이름,내용,등록일 가져오기
+
+//FirebaseConnection  firebaseConnection = FirebaseConnection();
+
 Widget guestBook() {
   return Row(
     children: [

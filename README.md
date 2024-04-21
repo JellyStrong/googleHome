@@ -19,8 +19,17 @@ samples, guidance on mobile development, and a full API reference.
 ERROR INFO
 
 No: ERROR_1
-error문구: "D8: Cannot fit requested classes in a single dex file ..."
+error: DexArchiveMergerException
+"D8: Cannot fit requested classes in a single dex file ..." 
 문제원인: cloud firestore를 추가시 나타난 문제로 추정
+해결방안: 수정완료
 수정파일: android > app > build.gradle 
+참고: https://hasanbalaban.medium.com/multidex-cannot-fit-requested-classes-in-a-single-dex-file-51b7c9b572b3
+
+No: ERROR_2
+error문구: 
+문제원인:
+해결방안:
+수정파일:
 
 

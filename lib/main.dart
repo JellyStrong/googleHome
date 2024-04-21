@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:googlehomepage/common/route.dart';
-import 'package:googlehomepage/page/google.dart';
-import 'package:googlehomepage/page/googleM.dart';
+import 'package:googlehomepage/model/data.dart';
+// import 'package:googlehomepage/page/google.dart';
+// import 'package:googlehomepage/page/googleM.dart';
 import 'package:googlehomepage/page/startPage_view.dart';
-import 'dart:io' show Platform;
+// import 'dart:io' show Platform;
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,13 +20,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _myRouter.router,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: "NotoSansKR",
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (BuildContext context) {
+          return Data();
+        })
+      ],
+      child: MaterialApp.router(
+        routerConfig: _myRouter.router,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          fontFamily: "NotoSansKR",
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
       ),
     );
   }
@@ -35,6 +44,10 @@ class MyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: SafeArea(child: StartPage()));
+    return const Scaffold(
+      body: SafeArea(
+        child: StartPage(),
+      ),
+    );
   }
 }

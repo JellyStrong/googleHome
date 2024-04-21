@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class GuestBook {
   final int no;
   final String name;
@@ -34,5 +36,16 @@ class GuestBook {
       "created_at": created_at,
       "updated_at": updated_at,
     };
+  }
+}
+
+class Data extends ChangeNotifier {
+  bool _showGuestForm = false;
+
+  bool get showGuestForm => _showGuestForm;
+
+  showGuestFormFC() {
+    _showGuestForm = !_showGuestForm;
+    notifyListeners();
   }
 }

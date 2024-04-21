@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/main.dart';
 import 'package:googlehomepage/page/googleKeyword1_view.dart';
+import 'package:googlehomepage/page/helpPage_view.dart';
 import 'package:googlehomepage/page/infoPage_view.dart';
 import 'package:googlehomepage/page/startPage_view.dart';
 import 'package:googlehomepage/page/listPage_view.dart';
@@ -21,14 +22,6 @@ class MyRouter {
       path: '/start',
       builder: (BuildContext context, GoRouterState state) => const StartPage(),
     ),
-    /* 
-    리스트 목록 
-    */
-    // GoRoute(
-    //   name: 'list',
-    //   path: '/list',
-    //   //builder: (BuildContext context, GoRouterState state) => const List(),
-    // ),
 
     /* 
     신규가입 & 계정 찾기 
@@ -40,7 +33,7 @@ class MyRouter {
     ),
 
     /* 
-    도움말 (로그인)
+    개발정보
     */
     GoRoute(
       name: 'Info',
@@ -48,14 +41,13 @@ class MyRouter {
       builder: (BuildContext context, GoRouterState state) => const InfoPage(),
     ),
     /* 
-    도움말 (로그인)
+    도움말
     */
-    // GoRoute(
-    //   name: 'help01',
-    //   path: '/help01',
-    //   //builder: (BuildContext context, GoRouterState state) => const HelpAccount(),
-    // ),
-
+    GoRoute(
+      name: 'help',
+      path: '/help',
+      builder: (BuildContext context, GoRouterState state) => const HelpPage(),
+    ),
     GoRoute(
       path: '/googleKeyword1',
       name: 'googleKeyword1',

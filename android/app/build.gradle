@@ -52,7 +52,7 @@ android {
         /* 24.4.9 
         no: ERROR_1
         before : null
-        after : 아래 추가
+        after : 아래 한줄 추가
         */
         multiDexEnabled true
     }
