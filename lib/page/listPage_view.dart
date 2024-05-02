@@ -1,5 +1,7 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/common/myWidget.dart';
@@ -7,7 +9,6 @@ import 'package:googlehomepage/controller/firebaseConnection.dart';
 import 'package:googlehomepage/model/data.dart';
 import 'package:googlehomepage/page/googleKeyword1_view.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:googlehomepage/page/guestBook_view.dart';
 import 'package:provider/provider.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
@@ -19,6 +20,7 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  final formKey = GlobalKey<FormState>();
   //late FToast fToast;
   // @override
   // void initState() {
@@ -37,7 +39,7 @@ class _ListPageState extends State<ListPage> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    final _formKey = GlobalKey<FormState>();
+    String guestBookListButtonText = "글 작성하기"; //처음 실행시 기본값
     String guestName = "";
     String guestPassword = "";
     String guestContent = "";
@@ -123,14 +125,12 @@ class _ListPageState extends State<ListPage> {
                         textAlign: TextAlign.center,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: const InputDecoration(
-                          // floatingLabelAlignment: FloatingLabelAlignment.center,
                           hintText: "서비스명",
                           fillColor: Colors.white,
                           hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13),
                           filled: true,
                           contentPadding: EdgeInsets.all(0), //가운데정렬
                           enabledBorder: OutlineInputBorder(
-                            //borderRadius: BorderRadius.all(Radius.circular(20)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                         ),
@@ -162,33 +162,41 @@ class _ListPageState extends State<ListPage> {
               padding: const EdgeInsets.all(20),
               height: 200,
               width: width,
-              color: Colors.amber,
               child: ListView.builder(
                   itemCount: 1,
                   itemBuilder: (BuildContext context, int index) {
-                    return guestBook();
+                    return Container(
+                      color: Colors.grey,
+                      child: Row(
+                        children: [
+                          Text("1"),
+                          Text("24.4.1"),
+                          Text("장인영"),
+                          Text("내용"),
+                        ],
+                      ),
+                    );
+                    // guestBookList();
                   }),
             ),
-            InkWell(
-              onTap: () {
-                //provider로 상태관리
-                context.read<Data>().showGuestFormFC();
-                //write
-              },
-              child: const Text("글작성 하기"),
-            ),
             Consumer<Data>(builder: (context, provider, child) {
-              return Visibility(
+              // guestBookListButtonText = provider.showGuestForm ? "글작성 취소" : "글작성 하기";
+              return Column(children: [
+                Visibility(
                   visible: provider.showGuestForm,
-                  child: Form(
-                      //  key: _formKey,
-                      child: TextFormField(
-                    key: ValueKey(1),
-                    onSaved: (newValue) {
-                      guestName = newValue!;
-                      print(guestName);
+                  child: writeGuestBook(), //글쓰기
+                ),
+                Visibility(
+                  visible: !provider.showGuestForm,
+                  child: TextButton(
+                    onPressed: () {
+                      print(provider.showGuestForm);
+                      context.read<Data>().showGuestFormFC();
                     },
-                  )));
+                    child: const Text("글작성 하기"),
+                  ),
+                ),
+              ]);
             }),
             const SizedBox(
               height: 100,
@@ -205,7 +213,7 @@ class _ListPageState extends State<ListPage> {
                   onTap: () {
                     context.go("/Info");
                   },
-                  child: Text("개발정보"),
+                  child: const Text("개발정보"),
                 ),
               ],
             ),
@@ -214,76 +222,226 @@ class _ListPageState extends State<ListPage> {
       ),
     );
   }
-}
 
-Widget googleItemIcon(String itemNumber, double top, double left) {
-  return Positioned(
-    top: top,
-    left: left,
-    child: InkWell(
-      onTap: () {
-        print(itemNumber.toString());
+/*  
+함수 모음
+*/
+
+  Widget writeGuestBook() {
+    String guestName = "", guestPassword = "", guestContent = "";
+
+    return Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: Column(children: [
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Flexible(
+            flex: 1,
+            child: SizedBox(
+              width: double.infinity * 0.5,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                        //autovalidateMode: AutovalidateMode.onUserInteraction,
+                        key: const ValueKey("guestNameKey"),
+                        onSaved: (value) {
+                          guestName = value!;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "\u26A0 입력하세요.";
+                          }
+                          if (value.length > 7) {
+                            return "7자 이하로 입력하세요.";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "이름",
+                          border:
+                              OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+                          fillColor: Colors.yellow,
+                          filled: true,
+                          contentPadding: const EdgeInsets.all(10),
+                          errorBorder:
+                              OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 20),
+          Flexible(
+            flex: 1,
+            child: Container(
+              decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+              child: TextFormField(
+                  onSaved: (value) {
+                    guestPassword = value!;
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "\u26A0 입력하세요.";
+                    }
+                    if (value.length > 7) {
+                      return "7자 이하로 입력하세요.";
+                    }
+                    return null;
+                  },
+                  key: const ValueKey("guestPasswordKey"),
+                  decoration: InputDecoration(
+                    hintText: "비밀번호",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+                    fillColor: Colors.yellow,
+                    filled: true,
+                    contentPadding: const EdgeInsets.all(10),
+                    errorBorder:
+                        OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+                  )),
+            ),
+          ),
+        ]),
+        const SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+          child: TextFormField(
+            key: const ValueKey("guestContentKey"),
+            onSaved: (value) {
+              guestContent = value!;
+            },
+            maxLines: 3,
+            decoration: const InputDecoration(
+              hintText: "내용",
+              enabledBorder: InputBorder.none,
+              contentPadding: EdgeInsets.all(10),
+            ),
+          ),
+        ),
+        Consumer<Data>(builder: (context, provider, child) {
+          return Row(children: [
+            TextButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            actions: [
+                              TextButton(onPressed: () => true, child: Text("저장")),
+                              TextButton(onPressed: () => false, child: Text("취소"))
+                            ],
+                          );
+                        }).then((value) {
+                      print(value);
+                      return value;
+                    });
+                    myShowSnackBar1(context, "저장되었습니다");
+                  }
+                },
+                child: const Text("저장")),
+            TextButton(
+                onPressed: () {
+                  context.read<Data>().showGuestFormFC();
+                },
+                child: const Text("취소")),
+          ]);
+        }),
+      ]),
+    );
+  }
+
+/*
+ 구글아이콘 아이템 
+*/
+  Widget googleItemIcon(String itemNumber, double top, double left) {
+    return Positioned(
+      top: top,
+      left: left,
+      child: InkWell(
+        onTap: () {
+          print(itemNumber.toString());
+        },
+        child: Container(
+          height: 35,
+          width: 35,
+          child: Image.asset("assets/images/google_item/item${itemNumber.toString()}.png"),
+        ),
+      ),
+    );
+  }
+
+/* 
+ 구글 키워드 
+ */
+  Widget googleKeyword(String str, BuildContext context, Color color, String router) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        side: BorderSide(
+          color: color,
+          width: 3,
+        ),
+        shadowColor: color,
+      ),
+      onHover: (value) => print('ssss'),
+      onPressed: () {
+        context.go(router);
       },
-      child: Container(
-        height: 35,
-        width: 35,
-        child: Image.asset("assets/images/google_item/item${itemNumber.toString()}.png"),
-      ),
-    ),
-  );
-}
-
-Widget googleKeyword(String str, BuildContext context, Color color, String router) {
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.white,
-      side: BorderSide(
-        color: color,
-        width: 3,
-      ),
-      shadowColor: color,
-    ),
-    onHover: (value) => print('ssss'),
-    onPressed: () {
-      context.go(router);
-    },
-    child: Text(
-      str,
-      style: const TextStyle(fontSize: 10, color: Colors.black),
-    ),
-  );
-}
-
-Widget h1Text(String str, Color color) {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-    child: Align(
-      alignment: Alignment.center,
       child: Text(
         str,
-        style: TextStyle(
-          fontSize: 20,
-          color: color,
-        ),
-        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 10, color: Colors.black),
       ),
-    ),
-  );
-}
+    );
+  }
+
+/* 
+ 텍스트 스타일
+*/
+  Widget h1Text(String str, Color color) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          str,
+          style: TextStyle(
+            fontSize: 20,
+            color: color,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
 
 //firebase에서
 //순번,이름,내용,등록일 가져오기
 
 //FirebaseConnection  firebaseConnection = FirebaseConnection();
+  Widget guestBookList() {
+    return Container(
+      color: Colors.grey,
+      child: Row(
+        children: [
+          Text("1"),
+          Text("24.4.1"),
+          Text("장인영"),
+          Text("내용"),
+        ],
+      ),
+    );
+  }
+}
 
-Widget guestBook() {
-  return Row(
-    children: [
-      Text("1"),
-      Text("24.4.1"),
-      Text("장인영"),
-      Text("내용"),
-    ],
+myShowSnackBar1(BuildContext context, String msg) {
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.grey,
+      duration: const Duration(milliseconds: 1500),
+      content: Text(msg),
+    ),
   );
 }
