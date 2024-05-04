@@ -1,6 +1,7 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,7 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   final formKey = GlobalKey<FormState>();
+
   //late FToast fToast;
   // @override
   // void initState() {
@@ -52,22 +54,33 @@ class _ListPageState extends State<ListPage> {
             myBackButton(context, "/start", Colors.red),
             SizedBox(
               height: 150,
-              child: h1Text("구글의 목표는 전 세계의 정보를 체계화하여 모두가 편리 하게 이용 할 수 있도록 하는 것입니다.", Colors.black),
+              child: h1Text(
+                  "구글의 목표는 전 세계의 정보를 체계화하여 모두가 편리 하게 이용 할 수 있도록 하는 것입니다.",
+                  Colors.black),
             ),
-            Wrap(alignment: WrapAlignment.center, spacing: 7, runSpacing: 10, children: [
-              googleKeyword("2023년 올해의 검색어", context, Colors.blue, "/googleKeyword1"),
-              googleKeyword("구글 스토리", context, Colors.red, "/googleKeyword1"),
-              googleKeyword("google for Korea", context, Colors.yellow.shade600, "/googleKeyword1"),
-              googleKeyword("구글 검색 25주년", context, Colors.blue, "/googleKeyword1"),
-              googleKeyword("구글의 약속", context, Colors.green, "/googleKeyword1"),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    color: Colors.red,
-                    size: 26,
-                  )),
-            ]),
+            Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 7,
+                runSpacing: 10,
+                children: [
+                  googleKeyword(
+                      "2023년 올해의 검색어", context, Colors.blue, "/googleKeyword1"),
+                  googleKeyword(
+                      "구글 스토리", context, Colors.red, "/googleKeyword1"),
+                  googleKeyword("google for Korea", context,
+                      Colors.yellow.shade600, "/googleKeyword1"),
+                  googleKeyword(
+                      "구글 검색 25주년", context, Colors.blue, "/googleKeyword1"),
+                  googleKeyword(
+                      "구글의 약속", context, Colors.green, "/googleKeyword1"),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.more_horiz,
+                        color: Colors.red,
+                        size: 26,
+                      )),
+                ]),
             SizedBox(
               height: 260,
               width: 500,
@@ -111,7 +124,10 @@ class _ListPageState extends State<ListPage> {
                   child: Center(
                     child: Text(
                       "모두를 위한 유용한 제품",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
                     ),
                   ),
                 ),
@@ -127,9 +143,13 @@ class _ListPageState extends State<ListPage> {
                         decoration: const InputDecoration(
                           hintText: "서비스명",
                           fillColor: Colors.white,
-                          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13),
+                          hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13),
                           filled: true,
-                          contentPadding: EdgeInsets.all(0), //가운데정렬
+                          contentPadding: EdgeInsets.all(0),
+                          //가운데정렬
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
                           ),
@@ -145,7 +165,10 @@ class _ListPageState extends State<ListPage> {
                     },
                     child: const Text(
                       "검색",
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.blue),
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue),
                     ),
                   ),
                 )
@@ -154,7 +177,8 @@ class _ListPageState extends State<ListPage> {
             SizedBox(
               height: size.height,
               child: Center(
-                child: h1Text("Google의 기술을 통해 더 많은 사람들이 혜택을 얻을 수 있도록 돕습니다.", Colors.black),
+                child: h1Text("Google의 기술을 통해 더 많은 사람들이 혜택을 얻을 수 있도록 돕습니다.",
+                    Colors.black),
               ),
             ),
             h1Text("방명록", Colors.black),
@@ -166,7 +190,7 @@ class _ListPageState extends State<ListPage> {
                   itemCount: 1,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      color: Colors.grey,
+                      //   color: Colors.grey,
                       child: Row(
                         children: [
                           Text("1"),
@@ -181,27 +205,30 @@ class _ListPageState extends State<ListPage> {
             ),
             Consumer<Data>(builder: (context, provider, child) {
               // guestBookListButtonText = provider.showGuestForm ? "글작성 취소" : "글작성 하기";
-              return Column(children: [
-                Visibility(
-                  visible: provider.showGuestForm,
-                  child: writeGuestBook(), //글쓰기
-                ),
-                Visibility(
-                  visible: !provider.showGuestForm,
-                  child: TextButton(
-                    onPressed: () {
-                      print(provider.showGuestForm);
-                      context.read<Data>().showGuestFormFC();
-                    },
-                    child: const Text("글작성 하기"),
-                  ),
-                ),
-              ]);
+              return Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Visibility(
+                      visible: provider.showGuestForm,
+                      child: writeGuestBook(), //글쓰기
+                    ),
+                    Visibility(
+                      visible: !provider.showGuestForm,
+                      child: TextButton(
+                        onPressed: () {
+                          print(provider.showGuestForm);
+                          context.read<Data>().showGuestFormFC();
+                        },
+                        child: const Icon(Icons.add),
+                      ),
+                    ),
+                  ]);
             }),
             const SizedBox(
               height: 100,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(
                   onTap: () {
@@ -209,6 +236,7 @@ class _ListPageState extends State<ListPage> {
                   },
                   child: const Text("도움받기"),
                 ), //고객센터
+                SizedBox(width: 20),
                 InkWell(
                   onTap: () {
                     context.go("/Info");
@@ -223,7 +251,7 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
-/*  
+/*
 함수 모음
 */
 
@@ -232,128 +260,162 @@ class _ListPageState extends State<ListPage> {
 
     return Padding(
       padding: const EdgeInsets.all(14.0),
-      child: Column(children: [
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Flexible(
-            flex: 1,
-            child: SizedBox(
-              width: double.infinity * 0.5,
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                        //autovalidateMode: AutovalidateMode.onUserInteraction,
-                        key: const ValueKey("guestNameKey"),
-                        onSaved: (value) {
-                          guestName = value!;
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "\u26A0 입력하세요.";
-                          }
-                          if (value.length > 7) {
-                            return "7자 이하로 입력하세요.";
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: "이름",
-                          border:
-                              OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
-                          fillColor: Colors.yellow,
-                          filled: true,
-                          contentPadding: const EdgeInsets.all(10),
-                          errorBorder:
-                              OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
-                        )),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 20),
-          Flexible(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(20)),
-              child: TextFormField(
+      child: Form(
+        key: formKey,
+        child: Column(children: [
+          Row(children: [
+            Flexible(
+              flex: 1,
+              child: SizedBox(
+                width: double.infinity * 0.5,
+                child: TextFormField(
+                  //autovalidateMode: AutovalidateMode.onUserInteraction,
+                  key: const ValueKey("guestNameKey"),
                   onSaved: (value) {
-                    guestPassword = value!;
+                    guestName = value!;
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "\u26A0 입력하세요.";
                     }
                     if (value.length > 7) {
-                      return "7자 이하로 입력하세요.";
+                      return "\u26A0 7자 이하로 입력하세요.";
                     }
                     return null;
                   },
-                  key: const ValueKey("guestPasswordKey"),
                   decoration: InputDecoration(
-                    hintText: "비밀번호",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
+                    hintText: "이름",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none),
                     fillColor: Colors.yellow,
                     filled: true,
                     contentPadding: const EdgeInsets.all(10),
-                    errorBorder:
-                        OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide.none),
-                  )),
+                    errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ]),
-        const SizedBox(height: 10),
-        Container(
-          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-          child: TextFormField(
+            const SizedBox(width: 20),
+            Flexible(
+              flex: 1,
+              child: SizedBox(
+                width: double.infinity * 0.5,
+                child: TextFormField(
+                  key: const ValueKey("guestPasswordKey"),
+                  onSaved: (value) {
+                    guestPassword = value!;
+                  },
+                  validator: (value) {
+                    
+                    if (value!.isEmpty) {
+                      return "\u26A0 입력하세요.";
+                    }
+                    if (value.length > 4) {
+                      return "\u26A0 4자 이하로 입력하세요.";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "비밀번호",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none),
+                    fillColor: Colors.blue,
+                    filled: true,
+                    contentPadding: const EdgeInsets.all(10),
+                    errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+              ),
+            ),
+          ]),
+          const SizedBox(height: 30),
+          TextFormField(
             key: const ValueKey("guestContentKey"),
             onSaved: (value) {
               guestContent = value!;
             },
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "\u26A0 입력하세요.";
+              }
+              if (value.length > 100) {
+                return "\u26A0 100자를 초과하였습니다.";
+              }
+              return null;
+            },
             maxLines: 3,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               hintText: "내용",
-              enabledBorder: InputBorder.none,
-              contentPadding: EdgeInsets.all(10),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none),
+              fillColor: Colors.red,
+              filled: true,
+              contentPadding: const EdgeInsets.all(10),
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none),
             ),
           ),
-        ),
-        Consumer<Data>(builder: (context, provider, child) {
-          return Row(children: [
-            TextButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            actions: [
-                              TextButton(onPressed: () => true, child: Text("저장")),
-                              TextButton(onPressed: () => false, child: Text("취소"))
-                            ],
-                          );
-                        }).then((value) {
-                      print(value);
-                      return value;
-                    });
-                    myShowSnackBar1(context, "저장되었습니다");
-                  }
-                },
-                child: const Text("저장")),
-            TextButton(
-                onPressed: () {
-                  context.read<Data>().showGuestFormFC();
-                },
-                child: const Text("취소")),
-          ]);
-        }),
-      ]),
+          Consumer<Data>(builder: (context, provider, child) {
+            return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TextButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              actions: [
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+
+                                            myShowSnackBar1(context, "저장되었습니다");
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("저장")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("취소")),
+                                    ]),
+                              ],
+                            );
+                          }).then((value) {
+                        print(">>>>>>>>");
+                        print(value);
+                        return value;
+                      });
+
+                    }
+                  },
+                  child: const Icon(Icons.check_outlined)),
+              TextButton(
+                  onPressed: () {
+                    context.read<Data>().showGuestFormFC();
+                  },
+                  child: const Icon(Icons.close_outlined)),
+            ]);
+          }),
+        ]),
+      ),
     );
   }
 
 /*
- 구글아이콘 아이템 
+ 구글아이콘 아이템
 */
   Widget googleItemIcon(String itemNumber, double top, double left) {
     return Positioned(
@@ -366,16 +428,18 @@ class _ListPageState extends State<ListPage> {
         child: Container(
           height: 35,
           width: 35,
-          child: Image.asset("assets/images/google_item/item${itemNumber.toString()}.png"),
+          child: Image.asset(
+              "assets/images/google_item/item${itemNumber.toString()}.png"),
         ),
       ),
     );
   }
 
-/* 
- 구글 키워드 
+/*
+ 구글 키워드
  */
-  Widget googleKeyword(String str, BuildContext context, Color color, String router) {
+  Widget googleKeyword(
+      String str, BuildContext context, Color color, String router) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
@@ -423,7 +487,7 @@ class _ListPageState extends State<ListPage> {
 //FirebaseConnection  firebaseConnection = FirebaseConnection();
   Widget guestBookList() {
     return Container(
-      color: Colors.grey,
+      //color: Colors.grey,
       child: Row(
         children: [
           Text("1"),
