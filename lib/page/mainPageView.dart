@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/common/myWidget.dart';
 import 'package:googlehomepage/controller/firebaseConnection.dart';
-import 'package:googlehomepage/model/mainPage_model.dart';
+import 'package:googlehomepage/model/mainPageModel.dart';
 import 'package:googlehomepage/page/googleKeyword1_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';

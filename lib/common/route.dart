@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/main.dart';
 import 'package:googlehomepage/page/googleKeyword1_view.dart';
-import 'package:googlehomepage/page/helpPage_view.dart';
-import 'package:googlehomepage/page/infoPage_view.dart';
-import 'package:googlehomepage/page/startPage_view.dart';
-import 'package:googlehomepage/page/mainPage_view.dart';
+import 'package:googlehomepage/page/helpPageView.dart';
+import 'package:googlehomepage/page/infoPageView.dart';
+import 'package:googlehomepage/page/startPageView.dart';
+import 'package:googlehomepage/page/mainPageView.dart';
 
 class MyRouter {
   final GoRouter router = GoRouter(debugLogDiagnostics: true, initialLocation: '/', routes: [

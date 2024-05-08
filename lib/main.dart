@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:googlehomepage/common/route.dart';
-import 'package:googlehomepage/model/mainPage_model.dart';
+import 'package:googlehomepage/model/mainPageModel.dart';
 
 // import 'package:googlehomepage/page/google.dart';
 // import 'package:googlehomepage/page/googleM.dart';
-import 'package:googlehomepage/page/startPage_view.dart';
+import 'package:googlehomepage/page/startPageView.dart';
 
 // import 'dart:io' show Platform;
 import 'package:provider/provider.dart';
