@@ -1,5 +1,7 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
@@ -7,20 +9,19 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/common/myWidget.dart';
 import 'package:googlehomepage/controller/firebaseConnection.dart';
-import 'package:googlehomepage/model/data.dart';
+import 'package:googlehomepage/model/mainPage_model.dart';
 import 'package:googlehomepage/page/googleKeyword1_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
-class ListPage extends StatefulWidget {
-  const ListPage({super.key});
+class ListPage extends StatefulWidget{
+   ListPage({super.key});
 
   @override
   State<ListPage> createState() => _ListPageState();
 }
-
-class _ListPageState extends State<ListPage> {
+class _ListPageState extends State<ListPage>{
   final formKey = GlobalKey<FormState>();
 
   //late FToast fToast;
@@ -35,17 +36,23 @@ class _ListPageState extends State<ListPage> {
   //   });
   //   // myToast("Google에서 제공된 내용을 바탕으로 제작하였습니다.");
   // }
-
+@override
+  void initState() {
+    // TODO: implement initState
+print("@@@@@init Start@@@@@");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    String guestBookListButtonText = "글 작성하기"; //처음 실행시 기본값
+    // String guestBookListButtonText = "글 작성하기"; //처음 실행시 기본값
     String guestName = "";
     String guestPassword = "";
     String guestContent = "";
-
+    Type guestBookClass = GuestBook;
+    GuestBook sss = new GuestBook(name: "", content: "", password: "");
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -186,43 +193,53 @@ class _ListPageState extends State<ListPage> {
               padding: const EdgeInsets.all(20),
               height: 200,
               width: width,
-              child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      //   color: Colors.grey,
-                      child: Row(
-                        children: [
-                          Text("1"),
-                          Text("24.4.1"),
-                          Text("장인영"),
-                          Text("내용"),
-                        ],
-                      ),
-                    );
-                    // guestBookList();
-                  }),
+              child: guestBookList(),
+
+              // ListView.builder(
+              //   itemCount: 1,
+              //   itemBuilder: (BuildContext context, int index) {
+              //     getData();
+              //     return Text("");
+              //
+              //       StreamBuilder<QuerySnapshot>(
+              //       stream: FirebaseFirestore.instance
+              //           .collection("guestBook")
+              //           .snapshots(),
+              //       builder: ((context, snapshot) {
+              //         getData();
+              //         print("context: ${snapshot}");
+              //         print("snapshot: ${snapshot.hasData}");
+              //         return Container(
+              //           color: Colors.red,
+              //           child: Text(">."),
+              //         );
+              //
+              //         //   ListView.builder(
+              //         //   itemBuilder: (BuildContext context, int index) {
+              //         //     print("실행됌");
+              //         //   },
+              //         // );
+              //       }),
+              //     );
+              //   },
+              // ),
             ),
             Consumer<Data>(builder: (context, provider, child) {
-              // guestBookListButtonText = provider.showGuestForm ? "글작성 취소" : "글작성 하기";
-              return Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Visibility(
-                      visible: provider.showGuestForm,
-                      child: writeGuestBook(), //글쓰기
-                    ),
-                    Visibility(
-                      visible: !provider.showGuestForm,
-                      child: TextButton(
-                        onPressed: () {
-                          print(provider.showGuestForm);
-                          context.read<Data>().showGuestFormFC();
-                        },
-                        child: const Icon(Icons.add),
-                      ),
-                    ),
-                  ]);
+              return Column(children: [
+                Visibility(
+                  visible: provider.showGuestForm,
+                  child: writeGuestBook(), //글쓰기
+                ),
+                Visibility(
+                  visible: !provider.showGuestForm,
+                  child: IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      context.read<Data>().showGuestFormFC();
+                    },
+                  ),
+                ),
+              ]);
             }),
             const SizedBox(
               height: 100,
@@ -236,7 +253,7 @@ class _ListPageState extends State<ListPage> {
                   },
                   child: const Text("도움받기"),
                 ), //고객센터
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 InkWell(
                   onTap: () {
                     context.go("/Info");
@@ -269,7 +286,6 @@ class _ListPageState extends State<ListPage> {
               child: SizedBox(
                 width: double.infinity * 0.5,
                 child: TextFormField(
-                  //autovalidateMode: AutovalidateMode.onUserInteraction,
                   key: const ValueKey("guestNameKey"),
                   onSaved: (value) {
                     guestName = value!;
@@ -286,14 +302,16 @@ class _ListPageState extends State<ListPage> {
                   decoration: InputDecoration(
                     hintText: "이름",
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none),
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none,
+                    ),
                     fillColor: Colors.yellow,
                     filled: true,
                     contentPadding: const EdgeInsets.all(10),
                     errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none),
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
@@ -309,7 +327,6 @@ class _ListPageState extends State<ListPage> {
                     guestPassword = value!;
                   },
                   validator: (value) {
-                    
                     if (value!.isEmpty) {
                       return "\u26A0 입력하세요.";
                     }
@@ -321,14 +338,16 @@ class _ListPageState extends State<ListPage> {
                   decoration: InputDecoration(
                     hintText: "비밀번호",
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none),
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none,
+                    ),
                     fillColor: Colors.blue,
                     filled: true,
                     contentPadding: const EdgeInsets.all(10),
                     errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none),
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
@@ -353,19 +372,21 @@ class _ListPageState extends State<ListPage> {
             decoration: InputDecoration(
               hintText: "내용",
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none),
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
               fillColor: Colors.red,
               filled: true,
               contentPadding: const EdgeInsets.all(10),
               errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none),
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
           Consumer<Data>(builder: (context, provider, child) {
             return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
+              IconButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       showDialog(
@@ -380,16 +401,15 @@ class _ListPageState extends State<ListPage> {
                                     children: [
                                       TextButton(
                                           onPressed: () {
-
                                             myShowSnackBar1(context, "저장되었습니다");
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("저장")),
+                                          child: const Text("저장")),
                                       TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("취소")),
+                                          child: const Text("취소")),
                                     ]),
                               ],
                             );
@@ -398,15 +418,15 @@ class _ListPageState extends State<ListPage> {
                         print(value);
                         return value;
                       });
-
                     }
                   },
-                  child: const Icon(Icons.check_outlined)),
-              TextButton(
-                  onPressed: () {
-                    context.read<Data>().showGuestFormFC();
-                  },
-                  child: const Icon(Icons.close_outlined)),
+                  icon: const Icon(Icons.check_outlined)),
+              IconButton(
+                onPressed: () {
+                  context.read<Data>().showGuestFormFC();
+                },
+                icon: const Icon(Icons.close_outlined),
+              ),
             ]);
           }),
         ]),
@@ -480,17 +500,31 @@ class _ListPageState extends State<ListPage> {
       ),
     );
   }
-
 //firebase에서
 //순번,이름,내용,등록일 가져오기
-
-//FirebaseConnection  firebaseConnection = FirebaseConnection();
   Widget guestBookList() {
+  // Map<String, dynamic> aa = guestBookClass.tooJSon();
+
+     Future<dynamic> asa = Datasss().getData();
+    var tt= {};
+asa.then((value){
+  print("@@@@@@@@");
+  print(value);
+  tt= value;
+
+  print("@@@@@@@@@@@3");
+  print(tt['name']);
+}).catchError((error){
+  print("@@@@@@@@2");
+  print(error);
+});
+    print(asa.runtimeType);
     return Container(
       //color: Colors.grey,
       child: Row(
         children: [
-          Text("1"),
+          //for (final a in asa)
+          Text(tt['name'].toString()),
           Text("24.4.1"),
           Text("장인영"),
           Text("내용"),

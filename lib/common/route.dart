@@ -5,7 +5,7 @@ import 'package:googlehomepage/page/googleKeyword1_view.dart';
 import 'package:googlehomepage/page/helpPage_view.dart';
 import 'package:googlehomepage/page/infoPage_view.dart';
 import 'package:googlehomepage/page/startPage_view.dart';
-import 'package:googlehomepage/page/listPage_view.dart';
+import 'package:googlehomepage/page/mainPage_view.dart';
 
 class MyRouter {
   final GoRouter router = GoRouter(debugLogDiagnostics: true, initialLocation: '/', routes: [
@@ -29,7 +29,7 @@ class MyRouter {
     GoRoute(
       name: 'list',
       path: '/list',
-      builder: (BuildContext context, GoRouterState state) => const ListPage(),
+      builder: (BuildContext context, GoRouterState state) =>  ListPage(),
     ),
 
     /* 
