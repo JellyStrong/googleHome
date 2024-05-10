@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:googlehomepage/common/route.dart';
-import 'package:googlehomepage/model/mainPageModel.dart';
+import 'package:googlehomepage/controller/mainPageController.dart';
 
 // import 'package:googlehomepage/page/google.dart';
 // import 'package:googlehomepage/page/googleM.dart';
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (BuildContext context) {
-          return Data();
+          return MainPageController();
         })
       ],
       child: MaterialApp.router(

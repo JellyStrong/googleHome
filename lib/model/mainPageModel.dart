@@ -36,27 +36,3 @@ class GuestBook {
 //   };
 // }
 }
-
-class Data extends ChangeNotifier {
-  bool _showGuestForm = false;
-
-  bool get showGuestForm => _showGuestForm;
-
-  showGuestFormFC() {
-    _showGuestForm = !_showGuestForm;
-    notifyListeners();
-  }
-}
-
-class Datasss{
-  getData() async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentSnapshot<Map<String, dynamic>> result =
-    await firestore.collection('guestBook').doc('NKHhHh4KGRx01tC3wX57').get();
-
-    var resultData = result.data();
-
-    return resultData;
-  }
-}
-

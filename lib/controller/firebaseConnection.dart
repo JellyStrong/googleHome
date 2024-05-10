@@ -65,9 +65,7 @@ class _gusetBookController extends State<gusetBookController> {
       stream: FirebaseFirestore.instance.collection("guestBook").snapshots(),
       builder: ((context, snapshot) {
         return ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-
-          },
+          itemBuilder: (BuildContext context, int index) {},
         );
       }),
     );
@@ -75,13 +73,15 @@ class _gusetBookController extends State<gusetBookController> {
 }
 
 final CollectionReference guestBook =
-FirebaseFirestore.instance.collection('guestBook');
+    FirebaseFirestore.instance.collection('guestBook');
 
 Stream<QuerySnapshot> getGuestBookStream() {
   return guestBook.snapshots();
-    //guestBook.orderBy('date', descending: true).snapshots();
+  //guestBook.orderBy('date', descending: true).snapshots();
 }
+
 final List<GuestBook> _guestBook = [];
+
 List<GuestBook> get _guestBookList => _guestBook;
 
 final firestore = FirebaseFirestore.instance;

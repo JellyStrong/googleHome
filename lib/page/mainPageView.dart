@@ -9,19 +9,21 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/common/myWidget.dart';
 import 'package:googlehomepage/controller/firebaseConnection.dart';
+import 'package:googlehomepage/controller/mainPageController.dart';
 import 'package:googlehomepage/model/mainPageModel.dart';
 import 'package:googlehomepage/page/googleKeyword1_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
-class ListPage extends StatefulWidget{
-   ListPage({super.key});
+class ListPage extends StatefulWidget {
+  ListPage({super.key});
 
   @override
   State<ListPage> createState() => _ListPageState();
 }
-class _ListPageState extends State<ListPage>{
+
+class _ListPageState extends State<ListPage> {
   final formKey = GlobalKey<FormState>();
 
   //late FToast fToast;
@@ -36,23 +38,28 @@ class _ListPageState extends State<ListPage>{
   //   });
   //   // myToast("Google에서 제공된 내용을 바탕으로 제작하였습니다.");
   // }
-@override
+
+  Future<dynamic> asa = MainPageController().getGuestBookData();
+
+  var tt = {};
+
+  @override
   void initState() {
-    // TODO: implement initState
-print("@@@@@init Start@@@@@");
     super.initState();
+    // TODO: implement initState
+
+    print("@@@@@init Start@@@@@");
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    // String guestBookListButtonText = "글 작성하기"; //처음 실행시 기본값
     String guestName = "";
     String guestPassword = "";
     String guestContent = "";
-    Type guestBookClass = GuestBook;
-    GuestBook sss = new GuestBook(name: "", content: "", password: "");
+    //  Provider.of<MainPageController>(context).test2();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -193,38 +200,51 @@ print("@@@@@init Start@@@@@");
               padding: const EdgeInsets.all(20),
               height: 200,
               width: width,
-              child: guestBookList(),
-
-              // ListView.builder(
-              //   itemCount: 1,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     getData();
-              //     return Text("");
-              //
-              //       StreamBuilder<QuerySnapshot>(
-              //       stream: FirebaseFirestore.instance
-              //           .collection("guestBook")
-              //           .snapshots(),
-              //       builder: ((context, snapshot) {
-              //         getData();
-              //         print("context: ${snapshot}");
-              //         print("snapshot: ${snapshot.hasData}");
-              //         return Container(
-              //           color: Colors.red,
-              //           child: Text(">."),
-              //         );
-              //
-              //         //   ListView.builder(
-              //         //   itemBuilder: (BuildContext context, int index) {
-              //         //     print("실행됌");
-              //         //   },
-              //         // );
-              //       }),
-              //     );
-              //   },
+              child: StreamBuilder(
+                stream: firestore.collection('guestBook').snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  final doc = snapshot.data?.docs;
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return guestBookList(doc);
+                },
+              ),
+              // StreamBuilder(
+              // stream: firestore.collection('party').snapshots(),
+              // builder: (BuildContext context,
+              // AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              // return Center(
+              // child: CircularProgressIndicator(),
               // ),
+
+//               Consumer<MainPageController>(
+//                   builder: (context, provider, child) {
+//                 // var a = provider.test1();
+// print("111111111");
+// print(provider.name);
+//                // context.read<MainPageController>().resultGuestBook();
+//                 // return Container(
+//                 //   //color: Colors.grey,
+//                 //   child: Row(
+//                 //     children: [
+//                 //       //for (final a in asa)
+//                 //       Text(provider.test3.toString()),
+//                 //       Text("24.4.1"),
+//                 //       Text("장인영"),
+//                 //       Text("내용"),
+//                 //     ],
+//                 //   ),
+//                 // );
+//                 return guestBookList();
+//               }),
             ),
-            Consumer<Data>(builder: (context, provider, child) {
+            Consumer<MainPageController>(builder: (context, provider, child) {
               return Column(children: [
                 Visibility(
                   visible: provider.showGuestForm,
@@ -235,7 +255,7 @@ print("@@@@@init Start@@@@@");
                   child: IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () {
-                      context.read<Data>().showGuestFormFC();
+                      context.read<MainPageController>().showGuestFormFC();
                     },
                   ),
                 ),
@@ -384,7 +404,7 @@ print("@@@@@init Start@@@@@");
               ),
             ),
           ),
-          Consumer<Data>(builder: (context, provider, child) {
+          Consumer<MainPageController>(builder: (context, provider, child) {
             return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               IconButton(
                   onPressed: () {
@@ -423,7 +443,7 @@ print("@@@@@init Start@@@@@");
                   icon: const Icon(Icons.check_outlined)),
               IconButton(
                 onPressed: () {
-                  context.read<Data>().showGuestFormFC();
+                  context.read<MainPageController>().showGuestFormFC();
                 },
                 icon: const Icon(Icons.close_outlined),
               ),
@@ -481,7 +501,7 @@ print("@@@@@init Start@@@@@");
     );
   }
 
-/* 
+/*
  텍스트 스타일
 */
   Widget h1Text(String str, Color color) {
@@ -500,34 +520,20 @@ print("@@@@@init Start@@@@@");
       ),
     );
   }
+
 //firebase에서
 //순번,이름,내용,등록일 가져오기
-  Widget guestBookList() {
-  // Map<String, dynamic> aa = guestBookClass.tooJSon();
-
-     Future<dynamic> asa = Datasss().getData();
-    var tt= {};
-asa.then((value){
-  print("@@@@@@@@");
-  print(value);
-  tt= value;
-
-  print("@@@@@@@@@@@3");
-  print(tt['name']);
-}).catchError((error){
-  print("@@@@@@@@2");
-  print(error);
-});
-    print(asa.runtimeType);
+  Widget guestBookList(var snapshots) {
     return Container(
       //color: Colors.grey,
       child: Row(
         children: [
           //for (final a in asa)
-          Text(tt['name'].toString()),
-          Text("24.4.1"),
-          Text("장인영"),
-          Text("내용"),
+          Text(snapshots?[0]['name']),
+          Text(snapshots?[0]['content']),
+          // DateFormat("yyyy년 MM월 dd일").format(_startDate)
+          // Text(snapshots[0]['updated_at']),
+          //     Text(result['name'].toString()),
         ],
       ),
     );
