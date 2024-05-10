@@ -8,11 +8,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/common/myWidget.dart';
-import 'package:googlehomepage/controller/firebaseConnection.dart';
-import 'package:googlehomepage/controller/mainPageController.dart';
-import 'package:googlehomepage/model/mainPageModel.dart';
-import 'package:googlehomepage/page/googleKeyword1_view.dart';
+import 'package:googlehomepage/viewModel/firebaseConnection.dart';
+import 'package:googlehomepage/viewModel/mainViewModel.dart';
+import 'package:googlehomepage/model/mainModel.dart';
+import 'package:googlehomepage/view/googleKeyword1_view.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:googlehomepage/viewModel/mainViewModel.dart';
 import 'package:provider/provider.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
@@ -39,7 +40,7 @@ class _ListPageState extends State<ListPage> {
   //   // myToast("Google에서 제공된 내용을 바탕으로 제작하였습니다.");
   // }
 
-  Future<dynamic> asa = MainPageController().getGuestBookData();
+  Future<dynamic> asa = MainViewModel().getGuestBookData();
 
   var tt = {};
 
@@ -77,15 +78,15 @@ class _ListPageState extends State<ListPage> {
                 spacing: 7,
                 runSpacing: 10,
                 children: [
-                  googleKeyword(
+                  MainViewModel().googleKeyword(
                       "2023년 올해의 검색어", context, Colors.blue, "/googleKeyword1"),
-                  googleKeyword(
+                  MainViewModel().googleKeyword(
                       "구글 스토리", context, Colors.red, "/googleKeyword1"),
-                  googleKeyword("google for Korea", context,
+                  MainViewModel().googleKeyword("google for Korea", context,
                       Colors.yellow.shade600, "/googleKeyword1"),
-                  googleKeyword(
+                  MainViewModel().googleKeyword(
                       "구글 검색 25주년", context, Colors.blue, "/googleKeyword1"),
-                  googleKeyword(
+                  MainViewModel().googleKeyword(
                       "구글의 약속", context, Colors.green, "/googleKeyword1"),
                   IconButton(
                       onPressed: () {},
@@ -99,27 +100,38 @@ class _ListPageState extends State<ListPage> {
               height: 260,
               width: 500,
               child: Stack(children: [
-                googleItemIcon("1", height * 0.16, width * 0.0),
-                googleItemIcon("2", height * 0.13, width * 0.1),
-                googleItemIcon("3", height * 0.10, width * 0.2),
-                googleItemIcon("4", height * 0.13, width * 0.3),
-                googleItemIcon("5", height * 0.08, width * 0.4),
-                googleItemIcon("6", height * 0.13, width * 0.5),
-                googleItemIcon("7", height * 0.10, width * 0.6),
-                googleItemIcon("8", height * 0.16, width * 0.7),
-                googleItemIcon("9", height * 0.11, width * 0.8),
-                googleItemIcon("10", height * 0.12, width * 0.9),
+                MainViewModel().googleItemIcon("1", height * 0.16, width * 0.0),
+                MainViewModel().googleItemIcon("2", height * 0.13, width * 0.1),
+                MainViewModel().googleItemIcon("3", height * 0.10, width * 0.2),
+                MainViewModel().googleItemIcon("4", height * 0.13, width * 0.3),
+                MainViewModel().googleItemIcon("5", height * 0.08, width * 0.4),
+                MainViewModel().googleItemIcon("6", height * 0.13, width * 0.5),
+                MainViewModel().googleItemIcon("7", height * 0.10, width * 0.6),
+                MainViewModel().googleItemIcon("8", height * 0.16, width * 0.7),
+                MainViewModel().googleItemIcon("9", height * 0.11, width * 0.8),
+                MainViewModel()
+                    .googleItemIcon("10", height * 0.12, width * 0.9),
                 //
-                googleItemIcon("11", height * 0.26, width * 0.0),
-                googleItemIcon("12", height * 0.23, width * 0.1),
-                googleItemIcon("13", height * 0.20, width * 0.2),
-                googleItemIcon("14", height * 0.23, width * 0.3),
-                googleItemIcon("15", height * 0.18, width * 0.4),
-                googleItemIcon("16", height * 0.23, width * 0.5),
-                googleItemIcon("17", height * 0.20, width * 0.6),
-                googleItemIcon("18", height * 0.26, width * 0.7),
-                googleItemIcon("19", height * 0.26, width * 0.8),
-                googleItemIcon("20", height * 0.23, width * 0.9),
+                MainViewModel()
+                    .googleItemIcon("11", height * 0.26, width * 0.0),
+                MainViewModel()
+                    .googleItemIcon("12", height * 0.23, width * 0.1),
+                MainViewModel()
+                    .googleItemIcon("13", height * 0.20, width * 0.2),
+                MainViewModel()
+                    .googleItemIcon("14", height * 0.23, width * 0.3),
+                MainViewModel()
+                    .googleItemIcon("15", height * 0.18, width * 0.4),
+                MainViewModel()
+                    .googleItemIcon("16", height * 0.23, width * 0.5),
+                MainViewModel()
+                    .googleItemIcon("17", height * 0.20, width * 0.6),
+                MainViewModel()
+                    .googleItemIcon("18", height * 0.26, width * 0.7),
+                MainViewModel()
+                    .googleItemIcon("19", height * 0.26, width * 0.8),
+                MainViewModel()
+                    .googleItemIcon("20", height * 0.23, width * 0.9),
               ]),
             ),
             SizedBox(
@@ -211,40 +223,11 @@ class _ListPageState extends State<ListPage> {
                       child: CircularProgressIndicator(),
                     );
                   }
-                  return guestBookList(doc);
+                  return MainViewModel().guestBookList(doc);
                 },
               ),
-              // StreamBuilder(
-              // stream: firestore.collection('party').snapshots(),
-              // builder: (BuildContext context,
-              // AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-              // if (snapshot.connectionState == ConnectionState.waiting) {
-              // return Center(
-              // child: CircularProgressIndicator(),
-              // ),
-
-//               Consumer<MainPageController>(
-//                   builder: (context, provider, child) {
-//                 // var a = provider.test1();
-// print("111111111");
-// print(provider.name);
-//                // context.read<MainPageController>().resultGuestBook();
-//                 // return Container(
-//                 //   //color: Colors.grey,
-//                 //   child: Row(
-//                 //     children: [
-//                 //       //for (final a in asa)
-//                 //       Text(provider.test3.toString()),
-//                 //       Text("24.4.1"),
-//                 //       Text("장인영"),
-//                 //       Text("내용"),
-//                 //     ],
-//                 //   ),
-//                 // );
-//                 return guestBookList();
-//               }),
             ),
-            Consumer<MainPageController>(builder: (context, provider, child) {
+            Consumer<MainViewModel>(builder: (context, provider, child) {
               return Column(children: [
                 Visibility(
                   visible: provider.showGuestForm,
@@ -255,7 +238,7 @@ class _ListPageState extends State<ListPage> {
                   child: IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () {
-                      context.read<MainPageController>().showGuestFormFC();
+                      context.read<MainViewModel>().showGuestFormFC();
                     },
                   ),
                 ),
@@ -404,7 +387,7 @@ class _ListPageState extends State<ListPage> {
               ),
             ),
           ),
-          Consumer<MainPageController>(builder: (context, provider, child) {
+          Consumer<MainViewModel>(builder: (context, provider, child) {
             return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               IconButton(
                   onPressed: () {
@@ -443,60 +426,13 @@ class _ListPageState extends State<ListPage> {
                   icon: const Icon(Icons.check_outlined)),
               IconButton(
                 onPressed: () {
-                  context.read<MainPageController>().showGuestFormFC();
+                  context.read<MainViewModel>().showGuestFormFC();
                 },
                 icon: const Icon(Icons.close_outlined),
               ),
             ]);
           }),
         ]),
-      ),
-    );
-  }
-
-/*
- 구글아이콘 아이템
-*/
-  Widget googleItemIcon(String itemNumber, double top, double left) {
-    return Positioned(
-      top: top,
-      left: left,
-      child: InkWell(
-        onTap: () {
-          print(itemNumber.toString());
-        },
-        child: Container(
-          height: 35,
-          width: 35,
-          child: Image.asset(
-              "assets/images/google_item/item${itemNumber.toString()}.png"),
-        ),
-      ),
-    );
-  }
-
-/*
- 구글 키워드
- */
-  Widget googleKeyword(
-      String str, BuildContext context, Color color, String router) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        side: BorderSide(
-          color: color,
-          width: 3,
-        ),
-        shadowColor: color,
-      ),
-      onHover: (value) => print('ssss'),
-      onPressed: () {
-        context.go(router);
-      },
-      child: Text(
-        str,
-        style: const TextStyle(fontSize: 10, color: Colors.black),
       ),
     );
   }
@@ -517,24 +453,6 @@ class _ListPageState extends State<ListPage> {
           ),
           textAlign: TextAlign.center,
         ),
-      ),
-    );
-  }
-
-//firebase에서
-//순번,이름,내용,등록일 가져오기
-  Widget guestBookList(var snapshots) {
-    return Container(
-      //color: Colors.grey,
-      child: Row(
-        children: [
-          //for (final a in asa)
-          Text(snapshots?[0]['name']),
-          Text(snapshots?[0]['content']),
-          // DateFormat("yyyy년 MM월 dd일").format(_startDate)
-          // Text(snapshots[0]['updated_at']),
-          //     Text(result['name'].toString()),
-        ],
       ),
     );
   }

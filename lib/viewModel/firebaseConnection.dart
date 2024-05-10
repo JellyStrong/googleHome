@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:googlehomepage/model/mainPageModel.dart';
+import 'package:googlehomepage/model/mainModel.dart';
 
 // class FirebaseConnection extends StatefulWidget {
 //   const FirebaseConnection({super.key});

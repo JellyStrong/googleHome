@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:googlehomepage/model/mainPageModel.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:googlehomepage/model/mainModel.dart';
 
-class MainPageController extends ChangeNotifier {
+class MainViewModel extends ChangeNotifier {
   bool _showGuestForm = false;
 
   bool get showGuestForm => _showGuestForm;
@@ -55,7 +57,7 @@ class MainPageController extends ChangeNotifier {
 //값에 변화가 있을때 발생!!!!!!
   resultGuestBook() {
     //위에 async를 사용을 하여 리턴값은 퓨처로 반홤됌.
-    Future<dynamic> getData = MainPageController().getGuestBookData();
+    Future<dynamic> getData = MainViewModel().getGuestBookData();
     print("firebase처리 결과값 가공");
     getData.then((value) {
       _guestList = value;
@@ -70,7 +72,7 @@ class MainPageController extends ChangeNotifier {
   test1() {
     //위에 async를 사용을 하여 리턴값은 퓨처로 반홤됌.
     Map<String, dynamic> guestList;
-    Future<dynamic> getDatas = MainPageController().getGuestBookData();
+    Future<dynamic> getDatas = MainViewModel().getGuestBookData();
     /* guestList = {};
 
     getDatas.then((value) {
@@ -96,5 +98,70 @@ class MainPageController extends ChangeNotifier {
       });
       //  notifyListeners();
     });
+  }
+
+  //firebase에서
+//순번,이름,내용,등록일 가져오기
+  Widget guestBookList(var snapshots) {
+    return Container(
+      //color: Colors.grey,
+      child: Row(
+        children: [
+          //for (final a in asa)
+          Text(snapshots?[0]['name']),
+          Text(snapshots?[0]['content']),
+          // DateFormat("yyyy년 MM월 dd일").format(_startDate)
+          // Text(snapshots[0]['updated_at']),
+          //     Text(result['name'].toString()),
+        ],
+      ),
+    );
+  }
+
+  /*
+ 구글 키워드
+ */
+  Widget googleKeyword(
+      String str, BuildContext context, Color color, String router) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        side: BorderSide(
+          color: color,
+          width: 3,
+        ),
+        shadowColor: color,
+      ),
+      onHover: (value) => print('ssss'),
+      onPressed: () {
+        context.go(router);
+      },
+      child: Text(
+        str,
+        style: const TextStyle(fontSize: 10, color: Colors.black),
+      ),
+    );
+  }
+
+/*
+ 구글아이콘 아이템
+*/
+  Widget googleItemIcon(String itemNumber, double top, double left) {
+    return Positioned(
+      top: top,
+      left: left,
+      child: InkWell(
+        onTap: () {
+          print(itemNumber.toString());
+        },
+        child: Container(
+          height: 35,
+          width: 35,
+          child: Image.asset(
+              "assets/images/google_item/item${itemNumber.toString()}.png"),
+        ),
+      ),
+    );
   }
 }
