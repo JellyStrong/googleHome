@@ -1,10 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:googlehomepage/common/route.dart';
+import 'package:googlehomepage/common/myRoute.dart';
 import 'package:googlehomepage/viewModel/mainViewModel.dart';
-
-// import 'package:googlehomepage/view/google.dart';
-// import 'package:googlehomepage/view/googleM.dart';
 import 'package:googlehomepage/view/startView.dart';
 
 // import 'dart:io' show Platform;

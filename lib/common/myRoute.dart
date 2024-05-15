@@ -38,7 +38,7 @@ class MyRouter {
     GoRoute(
       name: 'Info',
       path: '/Info',
-      builder: (BuildContext context, GoRouterState state) => const InfoPage(),
+      builder: (BuildContext context, GoRouterState state) => const InfoView(),
     ),
     /* 
     도움말
@@ -46,7 +46,7 @@ class MyRouter {
     GoRoute(
       name: 'help',
       path: '/help',
-      builder: (BuildContext context, GoRouterState state) => const HelpPage(),
+      builder: (BuildContext context, GoRouterState state) => const HelpView(),
     ),
     GoRoute(
       path: '/googleKeyword1',

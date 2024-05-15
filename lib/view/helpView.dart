@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:googlehomepage/common/myWidget.dart';
 
-class HelpPage extends StatelessWidget {
-  const HelpPage({super.key});
+class HelpView extends StatelessWidget {
+  const HelpView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [myBackButton(context, "/list", Colors.yellow.shade600), Text("도움")],
+          children: [MyWidget().myBackButton(context, "/list", Colors.yellow.shade600), Text("도움")],
         ),
       ),
     );

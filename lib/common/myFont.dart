@@ -1,4 +1,4 @@
-class MyFonts {
+class MyFont {
   static const malgun = "Malgun";
   static const malgunBold = "MalgunBold";
   //

@@ -4,8 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:googlehomepage/common/myWidget.dart';
 
-class InfoPage extends StatelessWidget {
-  const InfoPage({super.key});
+class InfoView extends StatelessWidget {
+  const InfoView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class InfoPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Column(children: [
-          myBackButton(context, "/list", Colors.blue),
+          MyWidget().myBackButton(context, "/list", Colors.blue),
           Expanded(
             child: SizedBox(
               height: 500,
@@ -39,7 +39,8 @@ class InfoPage extends StatelessWidget {
                         Text(
                           _content[index],
                           //textAlign: TextAlign.right,
-                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           width: 20,
