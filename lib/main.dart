@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:googlehomepage/common/myRoute.dart';
+import 'package:googlehomepage/common/myWidget.dart';
 import 'package:googlehomepage/viewModel/mainViewModel.dart';
 import 'package:googlehomepage/view/startView.dart';
 
@@ -33,9 +34,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (BuildContext context) {
-          return MainViewModel();
-        })
+        ChangeNotifierProvider(
+            create: (BuildContext context) => MainViewModel()),
+        ChangeNotifierProvider(
+            create: (BuildContext context) => MyWidget()),
       ],
       child: MaterialApp.router(
         routerConfig: _myRouter.router,
@@ -50,15 +52,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: StartPage(),
-      ),
-    );
-  }
-}
+///router로 조작
+// class MyWidget extends StatelessWidget {
+//   const MyWidget({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Scaffold(
+//       body: SafeArea(
+//         child: StartPage(),
+//       ),
+//     );
+//   }
+// }

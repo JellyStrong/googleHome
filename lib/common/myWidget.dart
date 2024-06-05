@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class MyWidget {
+class MyWidget extends ChangeNotifier {
   bool _mobile = false;
+  double _changeWidth = 0;
 
   bool get mobile => _mobile;
+  double get changeWidth => _changeWidth;
+   set changeWidth(double value) => _changeWidth;
 
   Widget myBackButton(BuildContext context, String router, Color color) {
     return Align(
@@ -55,13 +58,17 @@ class MyWidget {
   }
 
   //사이즈가 800이상이면 이미지 up 구글 아이콘에 텍스트 생성
-  void mobileCheck(double width) {
-    if (width <= 900) {
-      print("900이하 모바일로 추정");
+  bool mobileCheck(double deviceWidth) {
+    _changeWidth =deviceWidth;
+    if (deviceWidth <= 1200) {
+      print("1200이하 모바일로 추정");
+      notifyListeners();
       _mobile = true;
     } else {
-      print("900이상 pc로 추정");
+      print("1200이상 pc로 추정");
+      notifyListeners();
       _mobile = false;
     }
+    return _mobile;
   }
 }

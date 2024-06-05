@@ -11,7 +11,7 @@ class MyRouter {
   final GoRouter router = GoRouter(debugLogDiagnostics: true, initialLocation: '/', routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const MyWidget(),
+      builder: (context, state) => const StartPage(),
     ),
 
     /* 

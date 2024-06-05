@@ -26,13 +26,15 @@ class GuestBook {
     // updated_at: json['updated_at']);
   }
 
-// Map<String, dynamic> toJSon() {
-//   return {
-//     "name": name,
-//     "content": content,
-//     "password": password,
-//     // "created_at": created_at,
-//     // "updated_at": updated_at,
-//   };
-// }
+
+
+Map<String, dynamic> toJSon() {
+  return {
+    "name": name,
+    "content": content,
+    "password": password,
+    // "created_at": created_at,
+    // "updated_at": updated_at,
+  };
+}
 }
